@@ -30,13 +30,27 @@ bl_info = {
     "category": "Import-Export",
 }
 
+from bpy.types import Menu
+
 from . import setup_model
 
-classes = [setup_model.MPSetupModel]
+
+class MagicaPlyMTObjectMenu(Menu):
+    bl_idname = "MagicaPly_MT_Object"
+    bl_label = "MagicaPly"
+    bl_description = "MagicaPly Menu"
+
+    def draw(self, context):
+        layout = self.layout
+        layout.operator(setup_model.MPSetupModel.bl_idname)
 
 
 def menu_setup_func(self, context):
-    self.layout.operator(setup_model.MPSetupModel.bl_idname)
+    self.layout.separator()
+    self.layout.menu(MagicaPlyMTObjectMenu.bl_idname)
+
+
+classes = [setup_model.MPSetupModel, MagicaPlyMTObjectMenu]
 
 
 def register():
