@@ -15,3 +15,18 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+bl_info = {
+    "name": "MagicaPly-Blender",
+    "author": "Kokonoe",
+    "version": (0, 1, 0),
+    "blender": (3, 6, 0),
+    "location": "",
+    "description": "An add-on to optimize MagicaVoxel's .ply format models in Blender.",
+    "warning": "This add-on currently under testing. There is a possibility that bugs may occur.",
+    "support": "COMMUNITY",
+    "doc_url": "https://github.com/nonuplet/MagicaPly-Blender",
+    "tracker_url": "https://github.com/nonuplet/MagicaPly-Blender",
+    "category": "Import-Export"
+}
+
+
