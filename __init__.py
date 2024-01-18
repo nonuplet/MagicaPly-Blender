@@ -32,7 +32,7 @@ bl_info = {
 
 from bpy.types import Menu
 
-from . import setup_model, unwrap_uv
+from . import bake_texture, setup_model, unwrap_uv
 
 
 class MagicaPlyMTObjectMenu(Menu):
@@ -44,6 +44,7 @@ class MagicaPlyMTObjectMenu(Menu):
         layout = self.layout
         layout.operator(setup_model.MPSetupModel.bl_idname)
         layout.operator(unwrap_uv.MPUnwrapUv.bl_idname)
+        layout.operator(bake_texture.MPBakeTexture.bl_idname)
 
 
 def menu_setup_func(self, context):
@@ -51,7 +52,12 @@ def menu_setup_func(self, context):
     self.layout.menu(MagicaPlyMTObjectMenu.bl_idname)
 
 
-classes = [setup_model.MPSetupModel, unwrap_uv.MPUnwrapUv, MagicaPlyMTObjectMenu]
+classes = [
+    setup_model.MPSetupModel,
+    unwrap_uv.MPUnwrapUv,
+    bake_texture.MPBakeTexture,
+    MagicaPlyMTObjectMenu,
+]
 
 
 def register():
