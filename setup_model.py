@@ -30,8 +30,6 @@ class MPSetupModel(Operator):
 
 
 def setup_model(obj: Object, merge_vertices: bool = True):
-    current_ui = bpy.context.area.ui_type
-
     try:
         name = obj.name
         obj_mesh: Mesh = obj.data
@@ -65,6 +63,3 @@ def setup_model(obj: Object, merge_vertices: bool = True):
 
     except Exception as e:
         print(e)
-
-    finally:
-        bpy.context.area.ui_type = current_ui

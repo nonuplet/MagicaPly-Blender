@@ -31,7 +31,7 @@ class MPUnwrapUv(Operator):
         return {"FINISHED"}
 
 
-def unwrap_uv(mesh: Mesh):
+def unwrap_uv(mesh: Mesh, resolution: int = 512):
     # Initial Unwrap
     bpy.ops.object.mode_set(mode="EDIT")
     bpy.ops.mesh.select_all(action="SELECT")
@@ -55,7 +55,7 @@ def unwrap_uv(mesh: Mesh):
     )
 
     # Optimize UV for Voxel
-    voxel_unwrap(mesh, 512)
+    voxel_unwrap(mesh, resolution)
 
 
 def snap_to_pixel(x: float, y: float, resolution: int):

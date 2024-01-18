@@ -32,11 +32,11 @@ bl_info = {
 
 from bpy.types import Menu
 
-from . import bake_texture, decimate_model, set_origin, setup_model, unwrap_uv
+from . import bake_texture, decimate_model, load_ply, set_origin, setup_model, unwrap_uv
 
 
 class MagicaPlyMTObjectMenu(Menu):
-    bl_idname = "MagicaPly_MT_Object"
+    bl_idname = "view3d.magicaply_mt_object_menu"
     bl_label = "MagicaPly"
     bl_description = "MagicaPly Menu"
 
@@ -49,9 +49,13 @@ class MagicaPlyMTObjectMenu(Menu):
         layout.operator(set_origin.MPSetOrigin.bl_idname)
 
 
-def menu_setup_func(self, context):
+def object_menu_setup_func(self, context):
     self.layout.separator()
     self.layout.menu(MagicaPlyMTObjectMenu.bl_idname)
+
+
+def import_menu_setup_func(self, context):
+    self.layout.operator(load_ply.MPLoadPly.bl_idname)
 
 
 classes = [
@@ -60,6 +64,7 @@ classes = [
     bake_texture.MPBakeTexture,
     decimate_model.MPDecimate,
     set_origin.MPSetOrigin,
+    load_ply.MPLoadPly,
     MagicaPlyMTObjectMenu,
 ]
 
@@ -67,12 +72,14 @@ classes = [
 def register():
     for cls in classes:
         bpy.utils.register_class(cls)
-    bpy.types.VIEW3D_MT_object.append(menu_setup_func)
+    bpy.types.VIEW3D_MT_object.append(object_menu_setup_func)
+    bpy.types.TOPBAR_MT_file_import.append(import_menu_setup_func)
     print("Registering MagicaPly-Blender")
 
 
 def unregister():
-    bpy.types.VIEW3D_MT_object.remove(menu_setup_func)
+    bpy.types.VIEW3D_MT_object.remove(object_menu_setup_func)
+    bpy.types.TOPBAR_MT_file_import.remove(import_menu_setup_func)
     for cls in classes:
         bpy.utils.unregister_class(cls)
     print("Unregistering MagicaPly-Blender")
