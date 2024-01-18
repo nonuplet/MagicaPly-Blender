@@ -1,4 +1,5 @@
 import bpy
+from bpy.props import BoolProperty
 from bpy.types import Context, Mesh, Object, Operator
 
 
@@ -7,6 +8,10 @@ class MPSetupModel(Operator):
     bl_label = "Setup Magicavoxel .ply"
     bl_description = "Setup Magicavoxel .ply model"
     bl_options = {"REGISTER", "UNDO"}
+
+    merge_vertices: BoolProperty(
+        name="Merge Vertices", description="Merge overlapping vertices.", default=True
+    )
 
     def execute(self, context: Context):
         obj = context.active_object
@@ -19,7 +24,7 @@ class MPSetupModel(Operator):
             self.report({"ERROR"}, "Active object is not Mesh.")
             return {"CANCELLED"}
 
-        setup_model(obj)
+        setup_model(obj, self.merge_vertices)
 
         return {"FINISHED"}
 
