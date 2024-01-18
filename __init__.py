@@ -1,4 +1,5 @@
 # Copyright (C) 2024 Kokonoe
+import bpy.utils
 
 # This file is part of MagicaPly-Blender.
 
@@ -26,7 +27,45 @@ bl_info = {
     "support": "COMMUNITY",
     "doc_url": "https://github.com/nonuplet/MagicaPly-Blender",
     "tracker_url": "https://github.com/nonuplet/MagicaPly-Blender",
-    "category": "Import-Export"
+    "category": "Import-Export",
 }
 
+from bpy.types import Menu
 
+from . import setup_model
+
+
+class MagicaPlyMTObjectMenu(Menu):
+    bl_idname = "MagicaPly_MT_Object"
+    bl_label = "MagicaPly"
+    bl_description = "MagicaPly Menu"
+
+    def draw(self, context):
+        layout = self.layout
+        layout.operator(setup_model.MPSetupModel.bl_idname)
+
+
+def menu_setup_func(self, context):
+    self.layout.separator()
+    self.layout.menu(MagicaPlyMTObjectMenu.bl_idname)
+
+
+classes = [setup_model.MPSetupModel, MagicaPlyMTObjectMenu]
+
+
+def register():
+    for cls in classes:
+        bpy.utils.register_class(cls)
+    bpy.types.VIEW3D_MT_object.append(menu_setup_func)
+    print("Registering MagicaPly-Blender")
+
+
+def unregister():
+    bpy.types.VIEW3D_MT_object.remove(menu_setup_func)
+    for cls in classes:
+        bpy.utils.unregister_class(cls)
+    print("Unregistering MagicaPly-Blender")
+
+
+if __name__ == "__main__":
+    register()
