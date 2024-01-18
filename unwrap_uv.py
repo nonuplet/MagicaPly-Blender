@@ -72,8 +72,6 @@ def voxel_unwrap(mesh: Mesh, resolution: int):
     islands: List[List[BMFace]] = bmesh_utils.bmesh_linked_uv_islands(bm, bm.loops.layers.uv[0])
     uv_layer: BMLayerItem = bm.loops.layers.uv.get("UVMap")
 
-    print("island num: ", str(len(islands)))
-
     for island in islands:
         vertices = []
         edge_length = (island[0].loops[0][uv_layer].uv - island[0].loops[1][uv_layer].uv).length
