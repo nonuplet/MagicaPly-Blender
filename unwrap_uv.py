@@ -4,6 +4,7 @@ import bmesh
 import bpy
 import numpy as np
 from bmesh.types import BMFace, BMLayerItem, BMLoopUV
+from bpy.props import IntProperty
 from bpy.types import Context, Mesh, Object, Operator
 from bpy_extras import bmesh_utils
 from mathutils import Vector
@@ -14,6 +15,12 @@ class MPUnwrapUv(Operator):
     bl_label = "Unwrap Voxel UV"
     bl_description = "Perform UV unwrapping and optimization for the voxel model."
     bl_options = {"REGISTER", "UNDO"}
+
+    resolution: IntProperty(
+        name="Texture Resolution",
+        description="Adjust the UV based on the specified resolution",
+        default=512,
+    )
 
     def execute(self, context: Context):
         obj = context.active_object
@@ -26,12 +33,12 @@ class MPUnwrapUv(Operator):
             self.report({"ERROR"}, "Active object is not Mesh.")
             return {"CANCELLED"}
 
-        unwrap_uv(obj.data)
+        unwrap_uv(obj.data, self.resolution)
 
         return {"FINISHED"}
 
 
-def unwrap_uv(mesh: Mesh, resolution: int = 512):
+def unwrap_uv(mesh: Mesh, resolution: int):
     # Initial Unwrap
     bpy.ops.object.mode_set(mode="EDIT")
     bpy.ops.mesh.select_all(action="SELECT")
