@@ -76,5 +76,5 @@ def cycles_bake():
     render.bake.target = "IMAGE_TEXTURES"
     render.bake.use_clear = True
     render.bake.margin_type = "ADJACENT_FACES"
-    render.bake.margin = 2
+    render.bake.margin = 0
     bpy.ops.object.bake(type="DIFFUSE")
