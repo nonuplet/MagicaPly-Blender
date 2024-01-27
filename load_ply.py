@@ -5,7 +5,7 @@ from bpy.props import BoolProperty, CollectionProperty, IntProperty, StringPrope
 from bpy.types import Context, Operator, OperatorFileListElement
 from bpy_extras.io_utils import ImportHelper
 
-from . import bake_texture, setup_model, unwrap_uv, decimate_model, set_origin
+from . import bake_texture, decimate_model, set_origin, setup_model, unwrap_uv
 
 
 class MPLoadPly(Operator, ImportHelper):
@@ -36,8 +36,19 @@ class MPLoadPly(Operator, ImportHelper):
 
     bake: BoolProperty(name="Bake Texture", description="Bake textures", default=True)
 
-    resolution: IntProperty(
-        name="Texture Resolution", description="texture resolution for baking", default=512
+    optimize_resolution: BoolProperty(
+        name="Optimize resolution",
+        description=(
+            "Automatically calculate the optimal resolution\n"
+            'You need to turn off the "Optimize resolution" option.'
+        ),
+        default=True,
+    )
+
+    manual_resolution: IntProperty(
+        name="Resolution(Manual)",
+        description="Specify the texture resolution manually. ",
+        default=512,
     )
 
     decimate: BoolProperty(
@@ -51,13 +62,17 @@ class MPLoadPly(Operator, ImportHelper):
     def execute(self, context: Context):
         paths = [os.path.join(self.directory, name.name) for name in self.files]
 
+        reso = 0
+        if not self.optimize_resolution:
+            reso = self.manual_resolution
+
         for path in paths:
             import_ply(
                 path,
                 self.auto_setup,
                 self.merge_vertices,
                 self.bake,
-                self.resolution,
+                reso,
                 self.decimate,
                 self.origin_bottom,
             )
@@ -85,7 +100,12 @@ def import_ply(
             return
 
         setup_model.setup_model(obj, merge_vertices)
-        unwrap_uv.unwrap_uv(obj.data)
+
+        if resolution == 0:
+            resolution = unwrap_uv.calc_texture_resolution(obj.data)
+
+        unwrap_uv.initial_unwrap()
+        unwrap_uv.voxel_unwrap(obj.data, resolution)
 
         if bake:
             bake_texture.auto_bake(obj, resolution)

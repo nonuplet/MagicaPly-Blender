@@ -33,13 +33,13 @@ class MPUnwrapUv(Operator):
             self.report({"ERROR"}, "Active object is not Mesh.")
             return {"CANCELLED"}
 
-        unwrap_uv(obj.data, self.resolution)
+        initial_unwrap()
+        voxel_unwrap(obj.data, self.resolution)
 
         return {"FINISHED"}
 
 
-def unwrap_uv(mesh: Mesh, resolution: int):
-    # Initial Unwrap
+def initial_unwrap():
     bpy.ops.object.mode_set(mode="EDIT")
     bpy.ops.mesh.select_all(action="SELECT")
     bpy.ops.uv.smart_project(
@@ -60,9 +60,6 @@ def unwrap_uv(mesh: Mesh, resolution: int):
         margin=0.005,
         shape_method="CONCAVE",
     )
-
-    # Optimize UV for Voxel
-    voxel_unwrap(mesh, resolution)
 
 
 def snap_to_pixel(x: float, y: float, resolution: int):
@@ -108,3 +105,29 @@ def voxel_unwrap(mesh: Mesh, resolution: int):
                 idx += 1
 
     bmesh.update_edit_mesh(mesh)
+
+
+def calc_texture_resolution(mesh: Mesh) -> int:
+    # Check the UV edge length
+    initial_unwrap()
+    bm = bmesh.from_edit_mesh(mesh)
+    bm.faces.ensure_lookup_table()
+    islands: List[List[BMFace]] = bmesh_utils.bmesh_linked_uv_islands(bm, bm.loops.layers.uv[0])
+    uv_layer: BMLayerItem = bm.loops.layers.uv.get("UVMap")
+    edge_length = 0.0
+    for island in islands:
+        edge_length = max(
+            edge_length, (island[0].loops[0][uv_layer].uv - island[0].loops[1][uv_layer].uv).length
+        )
+
+    # Calculate the optimal resolution
+    resolution = 128
+    while resolution < 4096:
+        min_edge_length = 1.0 / 128
+        if edge_length < min_edge_length:
+            resolution *= 2
+        else:
+            break
+
+    print("resolution: ", resolution)
+    return resolution
