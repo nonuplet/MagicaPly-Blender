@@ -1,4 +1,5 @@
 import bpy
+from bpy.props import IntProperty
 from bpy.types import Context, Material, Mesh, Object, Operator
 
 
@@ -7,6 +8,12 @@ class MPBakeTexture(Operator):
     bl_label = "Bake texture"
     bl_description = "Bake the texture. **UV must be unwrapped in before**"
     bl_options = {"REGISTER", "UNDO"}
+
+    resolution: IntProperty(
+        name="Texture Resolution",
+        description="Resolution of Texture",
+        default=512,
+    )
 
     def execute(self, context: Context):
         obj = context.active_object
@@ -30,7 +37,7 @@ class MPBakeTexture(Operator):
             self.report({"ERROR"}, "Active object has no Material.")
             return {"CANCELLED"}
 
-        auto_bake(obj, 512)
+        auto_bake(obj, self.resolution)
 
         return {"FINISHED"}
 
@@ -69,5 +76,5 @@ def cycles_bake():
     render.bake.target = "IMAGE_TEXTURES"
     render.bake.use_clear = True
     render.bake.margin_type = "ADJACENT_FACES"
-    render.bake.margin = 2
+    render.bake.margin = 0
     bpy.ops.object.bake(type="DIFFUSE")
