@@ -10,7 +10,7 @@ MagicaVoxelで出力した `.ply` ファイルをBlenderで取り扱いやすく
 - 重複した頂点をマージ
 - ボクセルモデルに最適化したUV展開
 - テクスチャのベイク
-  - テクスチャサイズの最適化
+    - テクスチャサイズの最適化
 - 面の最適化・頂点数の削減
 - モデルの底辺に原点を合わせる
 
@@ -39,7 +39,11 @@ WIP 画像ができたら作る
 
 ## 使い方
 
-画面上部の `ファイル` -> `インポート` -> `Import Magicavoxel .ply` を選択します。
+Magicavoxelから `.ply` 形式でエクスポートします。
+
+![MagicavoxelExport.png](img/MagicavoxelExport.png)
+
+Blenderの画面上部 `ファイル` -> `インポート` -> `Import Magicavoxel .ply` を選択します。
 
 ![EN_Import.png](img/EN_Import.png)
 
@@ -47,27 +51,63 @@ WIP 画像ができたら作る
 
 ![EN_FileBrowser.png](img/EN_FileBrowser.png)
 
-### インポート時のオプション
+## 各機能について
 
 インポート時に各機能を選択できます。用途に合わせてオプションを選択してください。
 
-- **Setup Model (モデルのセットアップ)**
-  - マテリアルを自動で作成し、頂点カラーをセットしてBlender上で色が表示されるようにします。
-- **Merge Vertices (頂点のマージ)**
-  - 重なっている頂点をマージします。
-  - ボクセル単位で物理演算を行いたい場合、OFFにすることを推奨します。
-- **Bake Texture (テクスチャのベイク)**
-  - 自動でUVを展開、頂点カラーをテクスチャにベイクし、ベイクされた画像をマテリアルにセットします。
-- **Optimize Resolution (解像度の最適化)**
-  - ベイク時のテクスチャサイズを自動で最適化します。基本的にONにすることを推奨します。
-  - `Bake Texture` がOFFの時、このオプションは無視されます。
-- **Resolution(Manual) (解像度の手動指定)**
-  - ベイク時のテクスチャサイズを手動で指定します。
-  - `Optimize Resolution` がONになっている時、この値は無視されます。
-- **Apply Decimate (Decimateモディファイアの適用)**
-  - Decimateモディファイアを適用します。
-  - 必ず `Bake Texture` と併用してください。頂点カラーのままDecimateを行うと、モデルの色がおかしくなってしまいます。
-- **Set Bottom as Origin (モデルの底面を原点にする)**
-  - ボクセルモデルのz座標(高さ)の底面を原点に変更します。
-  - ゲームのアセット製作などに使えます。
+### Setup Model (モデルのセットアップ)
 
+マテリアルを自動で作成し、頂点カラーをセットしてBlender上で色が表示されるようにします。
+
+![SetupModel.png](img/SetupModel.png)
+
+### Merge Vertices (頂点のマージ)
+
+重なっている頂点をマージします。
+
+![MergeVertices.png](img/MergeVertices.png)
+
+### Bake Texture (テクスチャのベイク)
+
+ボクセルモデルに最適な形でUVを展開、頂点カラーをベイクし、テクスチャをマテリアルにセットします。
+
+![BakeTexture.png](img/BakeTexture.png)
+
+#### Optimize Resolution (解像度の最適化)
+
+ベイク前にモデルのサイズに合わせて自動的に最適なテクスチャ解像度を計算します。基本的にONにすることを推奨します。`Bake Texture`
+がOFFの時、このオプションは無視されます。
+
+#### Resolution(Manual) (解像度の手動指定)
+
+ベイク時のテクスチャサイズを手動で指定します。`Optimize Resolution` がONになっている時、この値は無視されます。
+
+### Apply Decimate (Decimateモディファイアの適用)
+
+Decimateモディファイアを適用し、頂点数を削減します。
+
+**必ず `Bake Texture` と併用してください**。頂点カラーのままDecimateを行うと、モデルの色がおかしくなってしまいます。
+
+![Decimate.png](img/Decimate.png)
+
+### Set Bottom as Origin (モデルの底面を原点にする)
+
+ボクセルモデルのz座標(高さ)の底面を原点に変更します。ゲームのアセット製作といった場面では有効です。
+
+![SetOrigin.png](img/SetOrigin.png)
+
+## 動作状況
+
+プラグインが動作するBlenderのバージョンです。随時更新します。
+
+✅: 動作確認済み  
+❓: 不明  
+🚫: 非対応
+
+| Blender | Windows | MacOS | Linux |
+|:--------|:-------:|:-----:|:-----:|
+| v3.6    |    ✅    |   ❓   |   ❓   |
+
+## Main Contributor
+
+- [Kokonoe](https://github.com/nonuplet)
