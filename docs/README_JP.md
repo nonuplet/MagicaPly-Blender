@@ -23,8 +23,11 @@ MagicaVoxelで出力した `.ply` ファイルをBlenderで取り扱いやすく
 通常のBlenderプラグインと同じ手順でインストールできます。
 
 ### 1. プラグインをダウンロード
+[リリースページ](https://github.com/nonuplet/MagicaPly-Blender/releases)から、`MagicaPly_Blender_v0_0_0.zip`をダウンロードしてください。
 
-WIP 画像ができたら作る
+`v0_0_0`は各バージョンごとに読み替えてください。
+
+![ReleasePage.png](img/ReleasePage.png)
 
 > [!WARNING]
 > ダウンロードしたzipファイルは、**解凍しないで**そのまま使います。

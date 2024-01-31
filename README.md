@@ -20,7 +20,11 @@ This add-on includes various features for voxel models. Each feature can be togg
 
 ### 1. Download plugin
 
-WIP
+Open the [Releases Page](https://github.com/nonuplet/MagicaPly-Blender/releases), download `MagicaPly_Blender_v0_0_0.zip`.
+
+The value of `v0_0_0` will change for each version.
+
+![ReleasePage.png](docs/img/ReleasePage.png)
 
 ### 2. Install add-on
 
