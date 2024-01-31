@@ -40,62 +40,61 @@ In the top bar, choose `File` -> `Import` -> `Import Magicavoxel .ply`
 
 ![EN_Import.png](docs/img/EN_Import.png)
 
-読み込みたいファイルを指定します。複数ファイルを同時に選択することも可能です。
+Select the file(s) you want to import.
 
 ![EN_FileBrowser.png](docs/img/EN_FileBrowser.png)
 
-## 各機能について
+## Features
 
-インポート時に各機能を選択できます。用途に合わせてオプションを選択してください。
+You can choose features during the import process.Select options according to your needs.
 
-### Setup Model (モデルのセットアップ)
+### Setup Model
 
-マテリアルを自動で作成し、頂点カラーをセットしてBlender上で色が表示されるようにします。
+Automatically create materials and set vertex colors.
 
 ![SetupModel.png](docs/img/SetupModel.png)
 
-### Merge Vertices (頂点のマージ)
+### Merge Vertices
 
-重なっている頂点をマージします。
+Merge duplicated vertices.
 
 ![MergeVertices.png](docs/img/MergeVertices.png)
 
-### Bake Texture (テクスチャのベイク)
+### Bake Texture
 
-ボクセルモデルに最適な形でUVを展開、頂点カラーをベイクし、テクスチャをマテリアルにセットします。
+Optimistically unwrap UVs for voxels, bake vertex colors, and set the texture to materials.
 
 ![BakeTexture.png](docs/img/BakeTexture.png)
 
-#### Optimize Resolution (解像度の最適化)
+#### Optimize Resolution
 
-ベイク前にモデルのサイズに合わせて自動的に最適なテクスチャ解像度を計算します。基本的にONにすることを推奨します。`Bake Texture`
-がOFFの時、このオプションは無視されます。
+Before baking, automatically calculate the optimal texture resolution based on model size.
 
-#### Resolution(Manual) (解像度の手動指定)
+It is generally recommended to keep this option enabled. When `Bake Texture` is turned off, this option will be ignored.
 
-ベイク時のテクスチャサイズを手動で指定します。`Optimize Resolution` がONになっている時、この値は無視されます。
+#### Resolution(Manual)
 
-### Apply Decimate (Decimateモディファイアの適用)
+Specify the texture size manually in baking. When `Optimize Resolution` is turned on、this option will be ignored.
 
-Decimateモディファイアを適用し、頂点数を削減します。
+### Apply Decimate
 
-**必ず `Bake Texture` と併用してください**。頂点カラーのままDecimateを行うと、モデルの色がおかしくなってしまいます。
+Apply the `Decimate` modifier to reduce the vertex count.
+
+**Always use it together with `Bake Texture`.**。If you apply Decimate while using the existing vertex colors, the texture may become distorted.
 
 ![Decimate.png](docs/img/Decimate.png)
 
-### Set Bottom as Origin (モデルの底面を原点にする)
+### Set Bottom as Origin
 
-ボクセルモデルのz座標(高さ)の底面を原点に変更します。ゲームのアセット製作といった場面では有効です。
+Align the origin with the bottom of the model. It can be used for creating game assets.
 
 ![SetOrigin.png](docs/img/SetOrigin.png)
 
-## 動作状況
+## Environment
 
-プラグインが動作するBlenderのバージョンです。随時更新します。
-
-✅: 動作確認済み  
-❓: 不明  
-🚫: 非対応
+✅: Confirmed  
+❓: Unknown  
+🚫: Not Supported
 
 | Blender | Windows | MacOS | Linux |
 |:--------|:-------:|:-----:|:-----:|
